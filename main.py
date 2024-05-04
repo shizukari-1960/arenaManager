@@ -1,10 +1,14 @@
 #coding=UTF-8
-import discord
-import random
-import queue
-import os
+
 import datetime
+import discord
+import os
+import random
 import time
+import queue
+
+from dotenv import load_dotenv
+
 import gr
 import imageProc
 import aud_dl
@@ -308,5 +312,6 @@ def deadManTimeDetect(hour):
         return f"現在時間是{time.localtime().tm_hour}點{time.localtime().tm_min}分了呢。"    
     
         
-
-client.run("MTA4MzI5OTQ2NzcyNzQ5MTEyMg.Gom_Xh.cAXVmY-11tRk2A6vP9o2X1-zcl7OMSuo4f2Gak")
+load_dotenv()
+token = os.environ.get('DCBOT_TOKEN')
+client.run(token)
