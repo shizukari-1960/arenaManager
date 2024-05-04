@@ -12,27 +12,11 @@ from dotenv import load_dotenv
 import gr
 import imageProc
 import aud_dl
+from bin import arena_gm_list,arena_channel_list,arena_emoji_list,room_list
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-arena_gm_list = [281435226012647434,645177694543282186,321298677547139072,449370483880755210,185811604439433216,561727016689467403,473304405697888267,417011631873064960,456830632404844554,576386278858162186,462978744030593045,368728169680732170,462978744030593045,505762064602497034,191131198184095744,251721315185197056]
-arena_channel_list = [1092254995052777604,1085647579615862925,808301142776872983,1170716932262076416]
-arena_emoji_list = ["<:Excuseme:1092137211832573952>","<:FBK:1092296776385572925>","<:koishiShock:1092297314594472076>","<:hahaha:1092297884935925800>","<:WTFcat:1092137424706085025>","<:Socute:1092137269617492100>"]
-room_list = {
-    645177694543282186 : "https://ccfolia.com/rooms/-GRlewmU_",
-    505762064602497034 : "https://ccfolia.com/rooms/o8NGZkdd_",
-    462978744030593045 : "https://ccfolia.com/rooms/9-r454gRk",
-    576386278858162186 : "https://ccfolia.com/rooms/pwv77nPu8",
-    456830632404844554 : "https://ccfolia.com/rooms/UsIc3XOCT",
-    417011631873064960 : "https://ccfolia.com/rooms/LyIj8OQd1",
-    473304405697888267 : "https://ccfolia.com/rooms/16LcVjZr-",
-    185811604439433216 : "https://ccfolia.com/rooms/y0WXRABLV",
-    561727016689467403 : "https://ccfolia.com/rooms/wLFsR1QEB",
-    281435226012647434 : ["https://ccfolia.com/rooms/ywoGpS2e-","https://ccfolia.com/rooms/_HVF5kBLQ"],
-    321298677547139072 : ["https://ccfolia.com/rooms/0sY-QLcmK","https://ccfolia.com/rooms/hsuelNy6b"],
-    449370483880755210 : ["https://ccfolia.com/rooms/kGwc5FoDJ","https://ccfolia.com/rooms/nG2HrGtVK","https://ccfolia.com/rooms/j4pVV4hVL","https://ccfolia.com/rooms/_RaqOSck5"],
-    191131198184095744 : "https://ccfolia.com/rooms/iUdefQiQW",
-    251721315185197056 : "https://ccfolia.com/rooms/0YLk5t2Qb"
-}
+load_dotenv()
+
 rawGrResultQueue = queue.Queue(0)
 grPrefer = []
 
@@ -123,7 +107,7 @@ async def on_message(message):
                 join_list = {"1-3":"","3-5":"","5-7":"","7-9":"","9-11":"","11-15":""}
                 ctx = await message.channel.send(f"===={datetime.datetime.now().astimezone().isoformat()}====\n{deadManTimeDetect(time.localtime().tm_hour)}\n\
 **{message.author.name}**開競技場了唷。\n<@&1093203033724301393>\n==========\n報名人員:")
-                #
+                
                 
                 global target
                 
@@ -312,6 +296,6 @@ def deadManTimeDetect(hour):
         return f"現在時間是{time.localtime().tm_hour}點{time.localtime().tm_min}分了呢。"    
     
         
-load_dotenv()
+
 token = os.environ.get('DCBOT_TOKEN')
 client.run(token)
