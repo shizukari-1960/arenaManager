@@ -6,6 +6,9 @@ import os
 import datetime
 import time
 import gr
+import imageProc
+import aud_dl
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 arena_gm_list = [281435226012647434,645177694543282186,321298677547139072,449370483880755210,185811604439433216,561727016689467403,473304405697888267,417011631873064960,456830632404844554,576386278858162186,462978744030593045,368728169680732170,462978744030593045,505762064602497034,191131198184095744,251721315185197056]
 arena_channel_list = [1092254995052777604,1085647579615862925,808301142776872983,1170716932262076416]
@@ -54,6 +57,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+
     if message.author == client.user:
         return
     
@@ -101,10 +105,6 @@ async def on_message(message):
             await message.channel.send(gr.prH(sp,intPf,rawGrResultQueue))
             
 
-        
-
-        
-        
         
     if message.content.startswith("好的鬥技場"):
         print(f"{message.author.name}:目標字串-開團")
@@ -157,7 +157,46 @@ async def on_message(message):
 
                 initialize()
 
+    if message.content.startswith(".rembg"):
+        if message.attachments:
+            
+            
+            filename = imageProc.toWhitebg(message.attachments[0].url)
+            img = discord.File(f'{filename}')
+            await message.channel.send(file = img, reference = message)
+            os.remove(filename)
+    
+            
+        else:
+            await message.channel.send(f"====這則訊息不包含圖片====")
+    
+    if message.content.startswith(".dl"):
+        contents = message.content.split(" ")
+        if len(contents) == 1:
+            return
+        
+        url = contents[1]
+        if 'youtu' not in url:
+            print("Not suiteble url")
+            await message.channel.send("====不支援的網址====")
+            return
+        filename = aud_dl.downloader(url)
+        try:
+            if 'mp3' in contents[0]:
+                rndname = f"{random.random()}".replace('.','')
+                os.rename(filename, f'fx{rndname}xf.m4a')
+                aud_dl.tomp3(f"fx{rndname}xf.m4a")
+                filename = filename.replace(".m4a","")
+                os.rename(f"fx{rndname}xf.mp3",f"{filename}.mp3")
+                filename = f'{filename}.mp3'
 
+
+        except:
+            print('No mp3 dec')
+            pass
+        aud = discord.File(f'{filename}')
+        await message.channel.send(file = aud, reference = message)
+        os.remove(filename)
 
 
 
