@@ -1,4 +1,4 @@
-cd E:\VSC_workspace\automaticUndertaker
+cd E:\git_repo\automaticUndertaker\arenaManager
 
-python main.py
+python main_rw.py
 pause

@@ -75,10 +75,10 @@ async def on_message(message):
             await message.channel.send(gr.main(pf,rawGrResultQueue))
         else:
             print("Foramat:SP")
+            sp = contents.pop(0)
             for i in contents:
-                pf.append(i)
-            sp = pf[0]
-            pf.pop(0)
+                pf.append(int(i))
+            
             grCount = int(pf[0])
             pf.pop(0)
             if len(pf) != 6:
@@ -87,9 +87,8 @@ async def on_message(message):
             for i in range(grCount):
                 rawGrResultQueue.put(gr.normal())
             intPf = []
-            for j in pf:
-                intPf.append(int(j))
-            print(sp,intPf,rawGrResultQueue.empty())
+            
+            print(sp,pf,rawGrResultQueue.empty())
             await message.channel.send(gr.prH(sp,intPf,rawGrResultQueue))
             
 
@@ -297,5 +296,5 @@ def deadManTimeDetect(hour):
     
         
 
-token = os.environ.get('DCBOT_TOKEN')
+token = os.environ.get('TOKEN')
 client.run(token)
