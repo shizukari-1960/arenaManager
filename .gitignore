@@ -1,7 +1,0 @@
-.env
-tests.py
-bin.py
-__pycache__/
-hear.py
-.gitignore
-*.pyc
