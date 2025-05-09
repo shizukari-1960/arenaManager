@@ -47,9 +47,11 @@ class Arena:
         content = f"===={datetime.datetime.now().astimezone().isoformat()}====\n\
 **{self.gm.name}**開競技場了唷。\n<@&1093203033724301393>\n==========\n報名人員:"
         self._future_dashboard = asyncio.run_coroutine_threadsafe(send_message(self._father_message,content),self._workloop)
-        self._dashboard_message = self._future_dashboard.result(timeout = 5)
+        self._dashboard_state = 'Pending'
         
     def update_dashboard(self):
+        if self._dashboard_state == 'Pending':
+            self._dashboard_message = self._future_dashboard.result(timeout = 5)
         ori = self._dashboard_message.content
         edited = ori + self.member_msg()
         asyncio.run_coroutine_threadsafe(edit_message(self._dashboard_message,edited),self._workloop)
@@ -86,6 +88,7 @@ async def send_message(message_obj: discord.message.Message, msg: str = '', file
     message = message_obj
     if file != None:
         rt_message_obj = await message.channel.send(f"{msg}", file = file, reference = message)
+        print(file.filename)
         os.remove(file.filename)
     else:
         rt_message_obj = await message.channel.send(f"{msg}")
@@ -125,6 +128,9 @@ async def on_message(message: discord.message.Message):
             for i in contents:
                 prefer.append(int(i))
             grCount = prefer.pop(0)
+            if grCount > 1000000:
+                await message.channel.send('最多僅支援1000000次。')
+                return
         
             if len(prefer) != 6:
                 await message.channel.send('格式錯誤。')
@@ -136,6 +142,9 @@ async def on_message(message: discord.message.Message):
             for i in contents:
                 prefer.append(int(i))
             grCount = int(prefer.pop(0))
+            if grCount > 1000000:
+                await message.channel.send('最多僅支援1000000次。')
+                return
             if len(prefer) != 6:
                 await message.channel.send('格式錯誤。')
                 return
@@ -189,7 +198,6 @@ async def on_message(message: discord.message.Message):
     
     if message.content.startswith('.rembg'):
         if message.attachments:
-            asyncio.to_thread()
             filename = imageProc.toWhitebg(message.attachments[0].url)
             img = discord.File(f'{filename}')
             await message.channel.send(file = img, reference = message)
@@ -269,9 +277,9 @@ def audio_download_action(message_obj: discord.message.Message, url: str, workLo
     if mp3:
         rndname = f"{random.random()}".replace('.','')
         os.rename(filename, f'fx{rndname}xf.m4a')
-        aud_dl.tomp3(f"fx{rndname}xf.m4a")
+        rd = aud_dl.tomp3(f"fx{rndname}xf.m4a")
         filename = filename.replace(".m4a","")
-        os.rename(f"fx{rndname}xf.mp3",f"{filename}.mp3")
+        os.rename(f"{rd}",f"{filename}.mp3")
         filename = f'{filename}.mp3'
     rt = discord.File(f'{filename}')
     asyncio.run_coroutine_threadsafe(send_message(message_obj, file = rt),workLoop)

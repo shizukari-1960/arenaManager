@@ -29,38 +29,38 @@ def oned():
 def prH(sp,prefer,dataQueue):
     list(prefer)
     resultList = []
-    print(dataQueue.empty())
-    print(prefer)
+    #print(dataQueue.empty())
+    #print(prefer)
     while dataQueue.empty() == False:
         
         tar = dataQueue.get()
-        print(tar)
+        #print(tar)
         for num in prefer:
             if num in tar:             
                 resultList.append(num)
                 break
             else:
                 continue
-    print(resultList)
+    #print(resultList)
     for i in resultList:
         if sp == "a":
             if i not in [1,2]:
-                print(i)
+                #print(i)
                 i = oned()
-                print(i)
-                print("/")
+                #print(i)
+                #print("/")
         if sp == "b":
             if i not in [3,4]:
-                print(i)
+                #print(i)
                 i = oned()
-                print(i)
-                print("/")
+                #print(i)
+                #print("/")
         if sp == "c":
             if i not in [5,6]:
-                print(i)
+                #print(i)
                 i = oned()
-                print(i)
-                print("/")
+                #print(i)
+                #print("/")
 
     readyToReturn = ""
     
