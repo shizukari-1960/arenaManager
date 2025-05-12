@@ -90,7 +90,7 @@ def get_values(value_name: str):
 
 #-------------------------------------------UPDATE ZONE-------------------------------------------
 
-def insert_columns_from_cell(sheet_name: str, start_cell: str, data_src: list, isCol: bool = False, credentials_path: str = 'arena-save-9b32919f2536.json', spreadsheet_url: str = 'https://docs.google.com/spreadsheets/d/1JYLJwjHjBlDSrHQs3XQv7BgRtg0_yS5AfhKZXRnJ-bQ/edit?usp=sharing'):
+def insert_columns_from_cell(sheet_name: str, start_cell: str, data_src: list, isCol: bool = False, credentials_path: str, spreadsheet_url: str):
     """
     從指定儲存格開始，以欄為單位插入多欄資料（支援 column-wise 結構，會自動轉置）。
 
